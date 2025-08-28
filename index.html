@@ -1,0 +1,4040 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- GSAP 3 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    /* CSS VARIABLES */
+    :root {
+      /* Colors */
+      --color-primary: #2563eb;
+      --color-primary-dark: #1d4ed8;
+      --color-secondary: #f59e0b;
+      --color-accent: #ef4444;
+      --color-bg: #0f172a;
+      --color-bg-light: #1e293b;
+      --color-bg-card: #334155;
+      --color-text: #f8fafc;
+      --color-text-muted: #94a3b8;
+      --color-border: #475569;
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      
+      /* Border Radius */
+      --border-radius: 12px;
+      --border-radius-lg: 16px;
+      
+      /* Transitions */
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* Spacing System (8px base unit) */
+      --space-xs: 0.25rem;   /* 4px */
+      --space-sm: 0.5rem;    /* 8px */
+      --space-md: 1rem;      /* 16px */
+      --space-lg: 1.5rem;    /* 24px */
+      --space-xl: 2rem;      /* 32px */
+      --space-2xl: 3rem;     /* 48px */
+      --space-3xl: 4rem;     /* 64px */
+      --space-4xl: 5rem;     /* 80px */
+      
+      /* Typography Scale */
+      --text-xs: 0.75rem;    /* 12px */
+      --text-sm: 0.875rem;   /* 14px */
+      --text-base: 1rem;     /* 16px */
+      --text-lg: 1.125rem;   /* 18px */
+      --text-xl: 1.25rem;    /* 20px */
+      --text-2xl: 1.5rem;    /* 24px */
+      --text-3xl: 1.875rem;  /* 30px */
+      --text-4xl: 2.25rem;   /* 36px */
+      --text-5xl: 3rem;      /* 48px */
+      --text-6xl: 3.75rem;   /* 60px */
+      --text-7xl: 4.5rem;    /* 72px */
+      --text-8xl: 6rem;      /* 96px */
+      --text-9xl: 8rem;      /* 128px */
+      
+      /* Font Weights */
+      --font-light: 300;
+      --font-normal: 400;
+      --font-medium: 500;
+      --font-semibold: 600;
+      --font-bold: 700;
+      --font-extrabold: 800;
+      
+      /* Typography Spacing */
+      --line-height-tight: 1.25;
+      --line-height-normal: 1.5;
+      --line-height-relaxed: 1.75;
+      
+      /* Component Spacing */
+      --section-padding: var(--space-4xl) 0;
+      --card-padding: var(--space-lg);
+      --button-padding: var(--space-sm) var(--space-lg);
+      --input-padding: var(--space-sm) var(--space-md);
+    }
+
+    /* RESET & BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: static;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      font-size: var(--text-base);
+      font-weight: var(--font-normal);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: var(--line-height-normal);
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* UTILITIES */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-lg);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--button-padding);
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: var(--font-medium);
+      font-size: var(--text-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--color-text);
+      border: 2px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg-light);
+      border-color: var(--color-primary);
+    }
+
+    /* HEADER */
+    header {
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      transition: var(--transition);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      color: var(--color-text);
+    }
+
+    .logo img {
+      height: 50px;
+      width: auto;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: var(--space-xl);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      position: relative;
+      font-weight: var(--font-medium);
+      font-size: var(--text-base);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: var(--transition);
+      padding: var(--space-sm) 0;
+    }
+
+    .nav-link:hover {
+      color: var(--color-primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-primary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .nav-actions .btn {
+      padding: var(--space-sm) var(--space-lg);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+      padding: var(--space-sm);
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      z-index: 1000;
+      position: relative;
+      width: 44px;
+      height: 44px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .mobile-menu-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .hamburger-line {
+      width: 24px;
+      height: 3px;
+      background-color: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      display: block;
+      box-shadow: 0 0 2px rgba(0,0,0,0.3);
+    }
+
+    .mobile-menu-btn.active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+
+    .mobile-menu-btn.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+
+    .mobile-menu-btn.active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    .mobile-menu-btn:hover {
+      background: var(--color-bg-light);
+      color: var(--color-primary);
+    }
+
+    /* HERO SECTION */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.4), rgba(30, 41, 59, 0.4)), url('../assets/images/stiv.jpeg') center/cover no-repeat;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 30% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      border-radius: 50px;
+      font-size: var(--text-9xl);
+      font-weight: var(--font-normal);
+      font-family: 'Bebas Neue', sans-serif;
+      color: var(--color-primary);
+      margin-bottom: var(--space-xl);
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 0.8s ease-out 0.8s both;
+    }
+    
+    .hero-type-title {
+      text-align: center;
+      justify-content: center;
+      width: 100%;
+      font-size: var(--text-9xl);
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: var(--font-normal);
+    }
+
+    .hero-title {
+      font-size: var(--text-9xl);
+      font-family: 'Bebas Neue', sans-serif;
+      font-weight: var(--font-normal);
+    }
+
+    /* SECTIONS */
+    .section {
+      padding: var(--section-padding);
+      scroll-margin-top: 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: var(--space-3xl);
+    }
+
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: clamp(var(--text-4xl), 4vw, var(--text-5xl));
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-md);
+    }
+
+    .section-subtitle {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* PROGRAMS GRID */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .program-card {
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      margin: 0 auto;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .program-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--color-primary);
+    }
+
+    .program-image {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .program-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .program-card:hover .program-image img {
+      transform: scale(1.1);
+    }
+
+    .program-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.8), rgba(239, 68, 68, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .program-card:hover .program-overlay {
+      opacity: 1;
+    }
+
+    .program-content {
+      padding: var(--card-padding);
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .program-title {
+      font-size: var(--text-xl);
+      font-weight: var(--font-semibold);
+      margin-bottom: var(--space-sm);
+    }
+
+    .program-description {
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-md);
+    }
+
+    .program-features {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: auto;
+      margin-bottom: 0;
+    }
+
+    .program-feature {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+    }
+
+    /* MEMBERSHIP CARDS */
+    .membership-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .membership-card {
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      padding: 2rem;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex; 
+      flex-direction: column;
+      height: 500px;
+    }
+
+    .membership-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      transform: scaleX(0);
+      transition: var(--transition);
+    }
+
+    .membership-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--color-primary);
+    }
+
+    .membership-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .membership-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: var(--text-2xl);
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .membership-title {
+      font-size: var(--text-xl);
+      font-weight: var(--font-semibold);
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .membership-price {
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      color: var(--color-primary);
+      margin-bottom: 1rem;
+      flex-shrink: 0;
+    }
+
+    .membership-features {
+      list-style: none;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .membership-features li {
+      padding: 0.5rem 0;
+      color: var(--color-text-muted);
+      text-align: center;
+      position: relative;
+      padding-left: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+
+
+    .membership-features li::before {
+      content: '✓';
+      color: var(--color-primary);
+      font-weight: bold;
+      order: -1;
+    }
+
+    .membership-card .btn {
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    /* VISIT US SECTION */
+    .visit-us-section {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+      padding: 5rem 0;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .visit-us-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="60" r="0.5" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="40" r="0.5" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .visit-us-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .visit-us-title {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .visit-us-subtitle {
+      font-size: var(--text-xl);
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .visit-us-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .visit-us-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: var(--text-base);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .visit-us-btn.primary {
+      background: white;
+      color: var(--color-primary);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .visit-us-btn.primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .visit-us-btn.secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .visit-us-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-3px);
+    }
+
+    .visit-us-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    .visit-us-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 300px;
+      transition: all 0.3s ease;
+    }
+
+    .visit-us-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: var(--text-4xl);
+    }
+
+    .visit-us-card h3 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-semibold);
+      margin-bottom: 1rem;
+    }
+
+    .visit-us-card p {
+      font-size: var(--text-lg);
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .card-address {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: var(--text-lg);
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      padding: 0.5rem;
+      border-radius: 10px;
+    }
+
+    .card-address:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+
+    .card-highlight {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: var(--font-semibold);
+      font-size: var(--text-sm);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--color-bg-light);
+      border-top: 1px solid var(--color-border);
+      padding: 3rem 0 1rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      margin-bottom: 1rem;
+    }
+
+    .footer-section p,
+    .footer-section a {
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .footer-section a:hover {
+      color: var(--color-primary);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background: var(--color-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--color-primary);
+      transform: translateY(-2px);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--color-border);
+      padding-top: 1rem;
+      text-align: center;
+      color: var(--color-text-muted);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .animate-fade-in-left {
+      animation: fadeInLeft 0.6s ease-out;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .visit-us-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+      }
+
+      .visit-us-title {
+        font-size: 2.5rem;
+      }
+
+      .visit-us-cta {
+        justify-content: center;
+      }
+
+      .visit-us-btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.9rem;
+      }
+
+      .nav-menu {
+        display: none;
+        position: fixed;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-bg);
+        border-top: 1px solid var(--color-border);
+        padding: 2rem;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        transform: translateY(-100%);
+        transition: transform 0.3s ease;
+      }
+
+      .nav-menu.active {
+        display: flex;
+        transform: translateY(0);
+      }
+
+      .nav-menu li {
+        width: 100%;
+      }
+
+      .nav-link {
+        display: block;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--color-border);
+        font-size: 1rem;
+        text-align: center;
+      }
+
+      .nav-link::after {
+        display: none;
+      }
+
+      .nav-actions {
+        gap: 0.5rem;
+      }
+
+      .nav-actions .btn {
+        display: none;
+      }
+
+      .nav-actions .btn.booking-btn {
+        display: flex;
+        margin-bottom: 1rem;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+        transition: var(--transition);
+        z-index: 1000;
+        position: relative;
+      }
+
+      .mobile-menu-btn.active {
+        transform: none;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+      }
+
+      .programs-grid,
+      .membership-grid,
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .membership-card {
+        height: auto;
+        min-height: 450px;
+      }
+
+      .philosophy-item {
+        padding: 1.5rem;
+      }
+
+      .philosophy-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+
+      .trainers-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .trainer-card {
+        height: 350px;
+        max-width: 100%;
+      }
+
+      .trainer-overlay {
+        padding: 1.5rem 1rem 1rem;
+      }
+
+      .trainer-name {
+        font-size: 1.25rem;
+      }
+
+      .trainer-classes {
+        gap: 0.4rem;
+      }
+
+      .class-tag {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 1rem;
+      }
+
+      .hero {
+        min-height: 60vh;
+      }
+
+      .hero-logo {
+        width: 200px;
+        height: 200px;
+      }
+
+      .hero-title {
+        font-size: 1.75rem;
+      }
+    }
+
+
+
+    /* LOGO ANIMATIONS */
+    @keyframes logoFloat {
+      0%, 100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+      25% {
+        transform: translateY(-15px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+      }
+      50% {
+        transform: translateY(-8px) rotateX(0deg) rotateY(0deg) scale(1.01);
+      }
+      75% {
+        transform: translateY(-20px) rotateX(-2deg) rotateY(2deg) scale(1.03);
+      }
+    }
+
+    @keyframes logoGlow {
+      0% {
+        filter: drop-shadow(0 20px 40px rgba(37, 99, 235, 0.4)) brightness(1) contrast(1);
+        transform: translateZ(20px) scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 25px 50px rgba(37, 99, 235, 0.6)) brightness(1.1) contrast(1.05);
+        transform: translateZ(30px) scale(1.02);
+      }
+      100% {
+        filter: drop-shadow(0 30px 60px rgba(37, 99, 235, 0.8)) brightness(1.2) contrast(1.1);
+        transform: translateZ(40px) scale(1.05);
+      }
+    }
+
+    @keyframes logoPulse {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.6;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(239, 68, 68, 0.1) 50%, transparent 70%);
+      }
+      25% {
+        transform: scale(1.1) rotate(90deg);
+        opacity: 0.8;
+        background: radial-gradient(circle, rgba(239, 68, 68, 0.2) 0%, rgba(37, 99, 235, 0.15) 50%, transparent 70%);
+      }
+      50% {
+        transform: scale(1.2) rotate(180deg);
+        opacity: 1;
+        background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, rgba(37, 99, 235, 0.2) 50%, transparent 70%);
+      }
+      75% {
+        transform: scale(1.1) rotate(270deg);
+        opacity: 0.8;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, rgba(239, 68, 68, 0.15) 50%, transparent 70%);
+      }
+    }
+
+    @keyframes logoRotate {
+      0% {
+        transform: translate(-50%, -50%) rotate(0deg) scale(1);
+        opacity: 0.8;
+      }
+      25% {
+        transform: translate(-50%, -50%) rotate(90deg) scale(1.05);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) rotate(180deg) scale(1.1);
+        opacity: 0.9;
+      }
+      75% {
+        transform: translate(-50%, -50%) rotate(270deg) scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) rotate(360deg) scale(1);
+        opacity: 0.8;
+      }
+    }
+
+    /* Hover Effects */
+    .hero-logo:hover {
+      animation-play-state: paused;
+    }
+
+    .hero-logo:hover img {
+      transform: translateZ(50px) scale(1.1) rotateY(10deg);
+      filter: drop-shadow(0 40px 80px rgba(37, 99, 235, 0.8)) brightness(1.3) contrast(1.2);
+    }
+
+    /* Click Animation */
+    .hero-logo:active img {
+      transform: translateZ(10px) scale(0.95);
+      filter: drop-shadow(0 10px 20px rgba(37, 99, 235, 0.6)) brightness(0.9);
+    }
+
+    /* Energy Particles */
+    .hero-logo .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .hero-logo .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--color-primary);
+      border-radius: 50%;
+      animation: particleFloat 3s ease-in-out infinite;
+    }
+
+    .hero-logo .particle:nth-child(1) {
+      top: 20%;
+      left: 20%;
+      animation-delay: 0s;
+      background: var(--color-primary);
+    }
+
+    .hero-logo .particle:nth-child(2) {
+      top: 30%;
+      right: 25%;
+      animation-delay: 0.5s;
+      background: var(--color-accent);
+    }
+
+    .hero-logo .particle:nth-child(3) {
+      bottom: 30%;
+      left: 30%;
+      animation-delay: 1s;
+      background: var(--color-secondary);
+    }
+
+    .hero-logo .particle:nth-child(4) {
+      bottom: 20%;
+      right: 20%;
+      animation-delay: 1.5s;
+      background: var(--color-primary);
+    }
+
+    @keyframes particleFloat {
+      0%, 100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        transform: translateY(-20px) scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    /* SPONSORS BANNER */
+    .sponsors-banner {
+      background: var(--color-bg-light);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      padding: 2rem;
+      margin-top: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sponsors-content {
+      text-align: center;
+    }
+
+    .sponsors-content h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .sponsors-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .sponsor-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      transition: var(--transition);
+      opacity: 0.8;
+    }
+
+    .sponsor-item:hover {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+
+    .sponsor-item img {
+      max-width: 100%;
+      height: auto;
+      transition: var(--transition);
+    }
+
+    .sponsor-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .sponsor-item span {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--color-text);
+      text-align: center;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+
+    /* ABOUT US SECTION */
+    .about-us-section {
+      background: var(--color-bg);
+      padding: 3rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-us-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: stretch;
+    }
+
+    .about-us-left {
+      text-align: center;
+      display: flex;
+    }
+
+    .about-us-right {
+      display: grid;
+      grid-template-rows: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .about-us-card {
+      background: var(--color-bg-light);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      border: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .about-us-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .about-us-text h2 {
+      color: var(--color-text);
+      font-size: var(--text-3xl);
+      margin-bottom: 1rem;
+      font-weight: var(--font-bold);
+      text-align: center;
+    }
+
+    .about-us-text p {
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .about-us-text .highlight {
+      color: var(--color-primary);
+      font-weight: bold;
+    }
+
+    .about-us-stats {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .stat-item {
+      background: var(--color-bg);
+      padding: 0.8rem;
+      border-radius: var(--border-radius);
+      text-align: center;
+      border: 1px solid var(--color-border);
+      flex: 1;
+      min-width: 80px;
+    }
+
+    .stat-number {
+      color: var(--color-primary);
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      display: block;
+    }
+
+    .stat-label {
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+    }
+
+    .about-us-image {
+      text-align: center;
+    }
+
+    .about-us-image img {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 15px;
+      border: 4px solid #ffd700;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .about-us-image img:hover {
+      transform: scale(1.05);
+    }
+
+    .about-us-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      box-shadow: 0 4px 12px rgba(255,107,107,0.3);
+    }
+
+    /* Responsive Design for About Us */
+    @media (max-width: 768px) {
+      .about-us-content {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .about-us-right {
+        gap: 1rem;
+      }
+      
+      .about-us-text h2 {
+        font-size: var(--text-2xl);
+      }
+      
+      .about-us-stats {
+        justify-content: center;
+      }
+    }
+
+    /* TRAINERS SECTION */
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .trainer-card {
+      background: var(--color-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      height: 400px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .trainer-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .trainer-media {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .trainer-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: all 0.5s ease;
+      position: relative;
+      z-index: 1;
+      display: block;
+      opacity: 1;
+      visibility: visible;
+      filter: grayscale(100%);
+    }
+
+    .trainer-card:hover .trainer-photo {
+      filter: grayscale(0%) blur(3px);
+    }
+
+
+
+    .badge.liquid-glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 8px 16px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .badge.liquid-glass:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .trainer-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .trainer-card:hover .trainer-photo {
+      opacity: 0;
+    }
+
+    .trainer-card:hover .trainer-video {
+      opacity: 1;
+    }
+
+    .trainer-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+      padding: var(--space-xl) var(--space-lg) var(--space-lg);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: 3;
+    }
+
+    .trainer-card:hover .trainer-overlay {
+      transform: translateY(0);
+    }
+
+    .trainer-info {
+      color: white;
+      text-align: left;
+      position: relative;
+      z-index: 4;
+    }
+
+    .trainer-name {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      margin-bottom: var(--space-sm);
+      color: white;
+    }
+
+    .trainer-specialty {
+      font-size: var(--text-base);
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: var(--space-md);
+      font-weight: var(--font-medium);
+    }
+
+    .trainer-classes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .class-tag {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: var(--space-xs) var(--space-sm);
+      border-radius: 20px;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .instagram-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: var(--space-sm) var(--space-md);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: fit-content;
+      position: relative;
+      z-index: 5;
+      pointer-events: auto;
+    }
+
+    .instagram-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      color: white;
+    }
+
+    .instagram-link i {
+      font-size: var(--text-lg);
+    }
+
+    .phone-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: fit-content;
+      margin-top: 0.5rem;
+      position: relative;
+      z-index: 5;
+      pointer-events: auto;
+    }
+
+    .phone-link:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      color: white;
+    }
+
+    .phone-link i {
+      font-size: var(--text-lg);
+    }
+
+    /* PHILOSOPHY SECTION */
+    .philosophy-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    #philosophy.section {
+      padding: 3rem 0;
+    }
+
+    #philosophy .section-header {
+      margin-bottom: 2rem;
+    }
+
+    .philosophy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .philosophy-item {
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      padding: 1rem;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .philosophy-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      transform: scaleX(0);
+      transition: var(--transition);
+    }
+
+    .philosophy-item:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--color-primary);
+    }
+
+    .philosophy-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .philosophy-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.75rem;
+      font-size: 1.25rem;
+      color: white;
+      transition: var(--transition);
+    }
+
+    .philosophy-item:hover .philosophy-icon {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    .philosophy-item h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .philosophy-item p {
+      color: var(--color-text-muted);
+      line-height: 1.4;
+      font-size: 0.85rem;
+    }
+
+    /* PHILOSOPHY RESPONSIVE */
+    @media (max-width: 768px) {
+      .philosophy-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      
+      .philosophy-item {
+        padding: 1.25rem;
+      }
+      
+      .philosophy-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+        margin-bottom: 0.75rem;
+      }
+      
+      .philosophy-item h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      .philosophy-item p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .philosophy-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .philosophy-item {
+        padding: 1rem;
+      }
+    }
+
+    /* WELLNESS SECTION */
+    .wellness-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .wellness-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--border-radius-lg);
+      padding: 2rem;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    .wellness-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .wellness-icon {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      font-size: var(--text-4xl);
+      color: white;
+      transition: var(--transition);
+    }
+
+    .wellness-card:hover .wellness-icon {
+      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .wellness-title {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-semibold);
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .wellness-description {
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+      font-size: var(--text-base);
+      margin-bottom: 1.5rem;
+    }
+
+    .wellness-features {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .wellness-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 25px;
+      color: white;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+    }
+
+    .wellness-feature i {
+      font-size: var(--text-base);
+    }
+
+    /* WELLNESS RESPONSIVE */
+    @media (max-width: 768px) {
+      .wellness-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+      
+      .wellness-card {
+        padding: 1.5rem;
+      }
+      
+      .wellness-icon {
+        width: 60px;
+        height: 60px;
+        font-size: var(--text-2xl);
+        margin-bottom: 1rem;
+      }
+      
+      .wellness-title {
+        font-size: var(--text-xl);
+        margin-bottom: 0.75rem;
+      }
+      
+      .wellness-description {
+        font-size: var(--text-sm);
+        margin-bottom: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .wellness-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .wellness-card {
+        padding: 1.25rem;
+      }
+    }
+
+    /* WELLNESS DISCLAIMER */
+    .wellness-disclaimer {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .disclaimer-content {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .disclaimer-content i {
+      color: var(--color-accent);
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .disclaimer-content p {
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .disclaimer-content strong {
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .disclaimer-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .disclaimer-content i {
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    /* CUTE GYM ANIMATIONS */
+    @keyframes dumbbellBounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-8px) rotate(-5deg); }
+      50% { transform: translateY(-12px) rotate(0deg); }
+      75% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes fistPump {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      50% { transform: rotate(0deg) scale(1.2); }
+      75% { transform: rotate(10deg) scale(1.1); }
+    }
+
+    @keyframes usersWave {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-5px) rotate(-3deg); }
+      50% { transform: translateY(-8px) rotate(0deg); }
+      75% { transform: translateY(-5px) rotate(3deg); }
+    }
+
+    @keyframes targetPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.8; }
+    }
+
+    @keyframes trophyShine {
+      0% { transform: rotate(0deg) scale(1); filter: brightness(1); }
+      25% { transform: rotate(5deg) scale(1.05); filter: brightness(1.2); }
+      50% { transform: rotate(0deg) scale(1.1); filter: brightness(1.4); }
+      75% { transform: rotate(-5deg) scale(1.05); filter: brightness(1.2); }
+      100% { transform: rotate(0deg) scale(1); filter: brightness(1); }
+    }
+
+    @keyframes floatingDots {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+      50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+    }
+
+    @keyframes muscleFlex {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.05) rotate(-2deg); }
+      50% { transform: scale(1.1) rotate(0deg); }
+      75% { transform: scale(1.05) rotate(2deg); }
+    }
+
+    /* Hover animations for philosophy icons */
+    .philosophy-item:hover .philosophy-icon i.fa-dumbbell {
+      animation: dumbbellBounce 0.8s ease-in-out infinite;
+    }
+
+    .philosophy-item:hover .philosophy-icon i.fa-heart {
+      animation: heartBeat 1s ease-in-out infinite;
+    }
+
+    .philosophy-item:hover .philosophy-icon i.fa-fist-raised {
+      animation: fistPump 0.6s ease-in-out infinite;
+    }
+
+    .philosophy-item:hover .philosophy-icon i.fa-users {
+      animation: usersWave 1.2s ease-in-out infinite;
+    }
+
+    .philosophy-item:hover .philosophy-icon i.fa-target {
+      animation: targetPulse 1s ease-in-out infinite;
+    }
+
+    .philosophy-item:hover .philosophy-icon i.fa-trophy {
+      animation: trophyShine 1.5s ease-in-out infinite;
+    }
+
+    /* Floating particles */
+    .floating-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--color-primary);
+      border-radius: 50%;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .floating-particle:nth-child(1) { animation: floatingDots 3s ease-in-out infinite; }
+    .floating-particle:nth-child(2) { animation: floatingDots 3s ease-in-out infinite 0.5s; }
+    .floating-particle:nth-child(3) { animation: floatingDots 3s ease-in-out infinite 1s; }
+
+    /* Muscle flex animation for program cards */
+    .program-card:hover .program-image::before {
+      content: '💪';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5rem;
+      animation: muscleFlex 0.8s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    /* SCHEDULE SECTION */
+    .schedule-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .schedule-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .schedule-tab {
+      background: var(--color-bg-light);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .schedule-tab:hover {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .schedule-tab.active {
+      background: var(--color-primary);
+      color: white;
+      border-color: var(--color-primary);
+    }
+
+    .schedule-content {
+      background: var(--color-bg-light);
+      border-radius: var(--border-radius-lg);
+      padding: 2rem;
+      border: 1px solid var(--color-border);
+    }
+
+    .schedule-day {
+      display: none;
+    }
+
+    .schedule-day.active {
+      display: block;
+    }
+
+    .schedule-item {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--color-border);
+      transition: var(--transition);
+    }
+
+    .schedule-item:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-item:hover {
+      background: rgba(37, 99, 235, 0.05);
+      border-radius: var(--border-radius);
+    }
+
+    .schedule-time {
+      background: var(--color-primary);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      min-width: 120px;
+      text-align: center;
+    }
+
+    .schedule-class h4 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      margin-bottom: 0.5rem;
+      color: var(--color-text);
+    }
+
+    .schedule-class p {
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .schedule-class .trainer {
+      font-size: var(--text-sm);
+      color: var(--color-primary);
+      font-weight: var(--font-medium);
+    }
+
+    /* REVIEWS SECTION */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--border-radius-lg);
+      padding: 2rem;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-primary);
+    }
+
+    .review-stars {
+      display: flex;
+      justify-content: center;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .review-stars i {
+      color: #fbbf24;
+      font-size: var(--text-lg);
+    }
+
+    .review-text {
+      color: var(--color-text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .review-author img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .review-author h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .review-author span {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+
+
+
+    /* HERO SPACER */
+    .hero-spacer { display: none !important; height: 0 !important; margin: 0 !important; padding: 0 !important; }
+
+    /* INSTAGRAM BUTTON HOVER EFFECT */
+    .hero-actions a[href*="instagram"]:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* MEMBERSHIP BUTTON HOVER EFFECT */
+    .hero-actions a[href="#membership"]:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+
+
+    /* VIRTUAL TOUR SECTION */
+    .virtual-tour-section {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, var(--color-bg), var(--color-bg-light));
+    }
+
+    .virtual-tour-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .virtual-tour-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .virtual-tour-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .tour-card {
+      background: var(--color-bg-light);
+      border-radius: 16px;
+      padding: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tour-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+
+    .tour-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .tour-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .tour-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: var(--text-4xl);
+      color: white;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .tour-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: var(--text-3xl);
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .tour-description {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .tour-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tour-features li {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.5rem;
+      padding-left: 1.5rem;
+      position: relative;
+    }
+
+    .tour-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-weight: bold;
+    }
+
+    .virtual-tour-cta {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .tour-btn {
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      color: white;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .tour-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+    }
+
+    @media (max-width: 768px) {
+      .virtual-tour-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .tour-card {
+        padding: 1.5rem;
+      }
+      
+      .tour-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+    }
+
+    /* FALCON FIGHTER CTA BUTTON */
+    .falcon-cta-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 3rem 0 2rem 0;
+    }
+    .falcon-cta-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent) 100%);
+      color: #fff;
+      font-size: var(--text-4xl);
+      font-weight: var(--font-extrabold);
+      letter-spacing: 2px;
+      padding: 1.25rem 3rem;
+      border: none;
+      border-radius: 999px;
+      box-shadow: 0 8px 32px rgba(37,99,235,0.15);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.2s cubic-bezier(.4,2,.3,1), box-shadow 0.2s, background 0.3s;
+      outline: none;
+      text-align: center;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+    }
+    .falcon-cta-btn:hover, .falcon-cta-btn:focus {
+      background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-primary) 100%);
+      transform: scale(1.06) translateY(-2px);
+      box-shadow: 0 16px 40px rgba(37,99,235,0.18);
+      color: #fff;
+    }
+
+    .hero-type-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 60vh;
+      padding-left: 6vw;
+      padding-top: 0;
+      z-index: 2;
+    }
+
+    .hero-type-title {
+      font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      margin: 0;
+      text-align: left;
+      line-height: 1.15;
+      min-height: 4.5rem;
+      display: flex;
+      align-items: flex-end;
+      gap: 0.7rem;
+    }
+
+    .hero-type-static {
+      color: #fff;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 120px;
+      font-weight: 400;
+    }
+
+    .hero-type-animated {
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      min-width: 120px;
+      display: inline-block;
+      font-weight: 400;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 120px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.20);
+    }
+
+    /* Lepší spacing na menších monitorech */
+    @media (max-width: 900px) {
+      .hero-type-container {
+        padding-left: 3vw;
+        min-height: 45vh;
+      }
+      .hero-type-title {
+        font-size: clamp(3rem, 8vw, 6rem);
+        min-height: 6rem;
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 400;
+      }
+      .hero-type-static,
+      .hero-type-animated {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 400;
+      }
+    }
+
+    /* Mobilní zobrazení - centrovat */
+    @media (max-width: 600px) {
+      .hero-type-container {
+        align-items: center;
+        padding-left: 0;
+        padding-top: 2.5rem;
+        min-height: 36vh;
+      }
+      .hero-type-title {
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        font-size: clamp(2rem, 6vw, 4rem);
+        min-height: unset;
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 400;
+      }
+      .hero-type-static,
+      .hero-type-animated {
+        font-size: clamp(2rem, 6vw, 4rem);
+        font-family: 'Bebas Neue', sans-serif;
+        font-weight: 400;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <img src="../assets/images/ChatGPT Image 12. 5. 2025 12_19_15.png" alt="Ultimate CrossGym">
+        </a>
+        
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="#about-us" class="nav-link">O nás</a></li>
+            <li><a href="#programs" class="nav-link">Programy</a></li>
+            <li><a href="#trainers" class="nav-link">Trenéři</a></li>
+            <li><a href="#wellness" class="nav-link">Wellness</a></li>
+            <li><a href="#membership" class="nav-link">Členství</a></li>
+            <li><a href="#schedule" class="nav-link">Rozvrh</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1 class="hero-type-title" style="font-family: 'Bebas Neue', sans-serif;">
+        <span class="hero-type-static">Přijďte na</span> <span id="typewriter" class="hero-type-animated"></span>
+      </h1>
+      <div class="hero-actions" style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="https://instagram.com/ultimate_crossgym" target="_blank" class="btn btn-primary" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 1.5rem; padding: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.2); color: white; text-decoration: none; border-radius: 50%; transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#membership" class="btn btn-secondary" style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 1.1rem; padding: 1rem 2rem; border: 1px solid rgba(255, 255, 255, 0.2); color: white; text-decoration: none; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+          <i class="fas fa-users"></i>
+          Připojit se
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Typewriter effect for hero
+    document.addEventListener('DOMContentLoaded', function() {
+      const words = ['MMA', 'Box', 'CrossFit', 'Kruháč', 'Zumbu', 'Soukromku', 'Wellness', 'Kettlebelly'];
+      const typewriter = document.getElementById('typewriter');
+      let wordIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      let typingSpeed = 150;
+      let pauseTime = 1200;
+
+      function type() {
+        const currentWord = words[wordIndex];
+        if (isDeleting) {
+          typewriter.textContent = currentWord.substring(0, charIndex--);
+        } else {
+          typewriter.textContent = currentWord.substring(0, charIndex++);
+        }
+
+        if (!isDeleting && charIndex > currentWord.length) {
+          isDeleting = true;
+          setTimeout(type, pauseTime);
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          setTimeout(type, 400);
+        } else {
+          setTimeout(type, isDeleting ? 60 : typingSpeed);
+        }
+      }
+      type();
+    });
+  </script>
+
+  <!-- HERO SPACER -->
+  <div class="hero-spacer"></div>
+
+
+
+  <!-- SPONSORS BANNER -->
+  <section id="sponsors" class="sponsors-banner" style="scroll-margin-top: 120px;">
+
+    <div class="container">
+      <div class="sponsors-content">
+        <h3>Naši Partneři</h3>
+        <div class="sponsors-grid">
+          <div class="sponsor-item">
+            <img src="../assets/images/images.png" alt="Falcons Fighters" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/sokostav-logo-min.png" alt="SOKOSTAV HT" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/E5E06E20-5918-4410-BE48-15A42E6F7A24.jpeg" alt="Bowling Lion" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/Vibe Store bi_le_ pozadi_.jpeg" alt="Vibe Store" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/NEW YORK BURGER LOGO.pdf" alt="New York Burger" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/Dirty boxing academy.pdf.pdf" alt="Dirty Boxing Academy" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/unnamed.png" alt="Klíčnictví U Potoka" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/jidlo.png" alt="Jídlo Podnos" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/product_cemix_logo_barevne.jpg" alt="Cemix" style="height: 60px; width: auto;">
+          </div>
+          <div class="sponsor-item">
+            <img src="../assets/images/cabi.png" alt="Podlahy Čábelka & Koucký" style="height: 60px; width: auto;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US SECTION -->
+  <section class="about-us-section" id="about-us">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 2rem;">
+        <h2 class="section-title" style="color: var(--color-text); font-size: 2.5rem; margin-bottom: 0.5rem; font-family: 'Bebas Neue', sans-serif;">
+          O Nás
+        </h2>
+      </div>
+      
+      <div class="about-us-content">
+        <!-- Left Side - Steven Krt -->
+        <div class="about-us-left">
+          <div class="about-us-card" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="about-us-text">
+              <h2 style="font-family: 'Bebas Neue', sans-serif;">Steven Krt</h2>
+              <div style="text-align: center; margin-bottom: 1.5rem;">
+                <img src="../assets/images/ksw98_asr07057.JPG" 
+                     alt="Steven Krt - MMA Trenér a KSW Profesionál" 
+                     style="width: 100%; max-width: 250px; border-radius: var(--border-radius); border: 2px solid var(--color-border); object-fit: cover;">
+              </div>
+              <p>
+                <span class="highlight">KSW fighter & MMA Trenér</span> s více než 10 lety zkušeností v bojových sportech. 
+                Specializuji se na MMA, K1 a box.
+              </p>
+              <p>
+                V Ultimate CrossGym vytvářím <span class="highlight">komunitu bojovníků</span> a <span class="highlight">sportovců</span>.
+              </p>
+              
+              <div class="about-us-stats">
+                <div class="stat-item">
+                  <span class="stat-number">10+</span>
+                  <span class="stat-label">Let Zkušeností</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">500+</span>
+                  <span class="stat-label">Spokojených Klientů</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">3</span>
+                  <span class="stat-label">Disciplíny</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side - Mission & Vision -->
+        <div class="about-us-right">
+          <!-- Our Mission Card -->
+          <div class="about-us-card">
+            <div class="about-us-text">
+              <h2 style="font-family: 'Bebas Neue', sans-serif;">Naše Mise</h2>
+              <p>
+                <span class="highlight">Měnit životy</span> prostřednictvím profesionálního tréninku a vytvořit 
+                komunitu nadšenců, kteří sdílejí vášeň pro bojové sporty a fitness.
+              </p>
+              <p>
+                Poskytujeme <span class="highlight">individuální přístup</span> a moderní tréninkové metody.
+              </p>
+              
+              <div class="about-us-stats">
+                <div class="stat-item">
+                  <span class="stat-number">100%</span>
+                  <span class="stat-label">Individuální</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">24/7</span>
+                  <span class="stat-label">Podpora</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Our Vision Card -->
+          <div class="about-us-card">
+            <div class="about-us-text">
+              <h2 style="font-family: 'Bebas Neue', sans-serif;">Naše Vize</h2>
+              <p>
+                Stát se <span class="highlight">premiérovým fitness centrem</span> v regionu, které kombinuje 
+                profesionální trénink s přátelským prostředím.
+              </p>
+              <p>
+                Vytvořit <span class="highlight">inspirující komunitu</span>, kde se každý cítí vítán a motivován 
+                k dosažení svých cílů.
+              </p>
+              
+              <div class="about-us-stats">
+                <div class="stat-item">
+                  <span class="stat-number">#1</span>
+                  <span class="stat-label">Fitness</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-number">∞</span>
+                  <span class="stat-label">Možností</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY SECTION -->
+  <section id="philosophy" class="section" style="scroll-margin-top: 120px;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif;">Naše Filozofie</h2>
+        <p class="section-subtitle">
+          Protože sport není jen o výkonu.</p>
+      </div>
+      
+      <div class="philosophy-content">
+        <div class="philosophy-grid">
+          <div class="philosophy-item">
+            <div class="philosophy-icon">
+              <i class="fas fa-dumbbell"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Silový Rozvoj</h3>
+            <p>Víme, že bezhlavé cvičení na strojích leckdy vede ke zraněním. Proto se zaměřujeme na cvíčení s vlastním tělem a vahou.</p>
+          </div>
+          
+          <div class="philosophy-item">
+            <div class="philosophy-icon">
+              <i class="fas fa-heart"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Bez toxicity</h3>
+            <p>Nejsme jen další fitness centrum v řadě. Vše, co děláme, je výsledkem dlouhodobé snahy o vytvoření prostředí, kde se každý cítí vítán a cvičení pro něj není jen o focení selfíček z gymu a o pokukováním po ostatních.</p>
+          </div>
+          
+          <div class="philosophy-item">
+            <div class="philosophy-icon">
+              <i class="fas fa-fist-raised"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Nejsme to jen my</h3>
+            <p>Spolupracujeme s trenéry z jiných klubů. Pořádáme meziklubové sparringy, protože společně jsme silnější.</p>
+          </div>
+          
+          <div class="philosophy-item">
+            <div class="philosophy-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Komunita</h3>
+            <p>Jsme jako rodina. Proto dbáme na tom, aby se každý cítil vítán a podporován. Jsme komorníci, ne soupeři.</p>
+          </div>
+          
+          <div class="philosophy-item">
+            <div class="philosophy-icon">
+              <i class="fas fa-target"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Individuální Přístup</h3>
+            <p>Každý sportovec je jedinečný. Přizpůsobujeme tréninky individuálním cílům, schopnostem a úrovni pokročilosti každého člena.</p>
+          </div>
+          
+          <div class="philosophy-item">
+            <div class="philosophy-icon">
+              <i class="fas fa-trophy"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Kdo se vzdává, nevyhrává</h3>
+            <p>Výhra je sice slast. Ale prohry nás učí, že se můžeme zlepšit. A to je to, co nás vede k výkonu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS SECTION -->
+  <section id="programs" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif;">Naše Programy</h2>
+        <p class="section-subtitle">
+          Vyber si program, který ti nejvíce vyhovuje. 
+          Od profesionálního boxu po intenzivní CrossFit tréninky, máme něco pro každého.
+        </p>
+      </div>
+
+      <div class="programs-grid">
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/IMG_0530.JPG" alt="Box">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+            </div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">Box</h3>
+            <p class="program-description">
+              Nauč se techniky profesionálního boxu a zlepši svou kondici.
+            </p>
+            <div class="program-features">
+              <span class="program-feature">
+                <i class="fas fa-clock"></i>
+                90 min
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-users"></i>
+                Skupina
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-star"></i>
+                Všichni
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/tmp_9b5hX7_d6154a565d8aef31_GettyImages-840886788.jpg.webp" alt="Kruhové tréninky">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+            </div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">Kruhové tréninky</h3>
+            <p class="program-description">
+              Naše kruhové tréninky propojují dynamické silové a kondiční stanoviště pro trénink celého těla. 
+            </p>
+            <div class="program-features">
+              <span class="program-feature">
+                <i class="fas fa-clock"></i>
+                90 min
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-users"></i>
+                Skupina
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-star"></i>
+                Všichni
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/IMG_0474.JPG" alt="MMA">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+                </div>
+              </div>
+                <div class="program-content">
+                  <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">MMA</h3>
+                  <p class="program-description">
+                      Kombinace bojových umění pro komplexní techniku.
+                  </p>
+                    <div class="program-features">
+                      <span class="program-feature">
+                        <i class="fas fa-clock"></i>
+                        90 min
+                      </span>
+                      <span class="program-feature">
+                        <i class="fas fa-users"></i>
+                        Skupina
+                      </span>
+                      <span class="program-feature">
+                        <i class="fas fa-star"></i>
+                        Všichni
+                      </span>
+                    </div>
+                  </div>
+
+        </div>
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/2024-Crossfit-Double-Under-Workout-Workout-Of-The-Day-1024x576.jpg" alt="CrossFit">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+            </div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">CrossFit</h3>
+            <p class="program-description">
+              Intenzivní funkční trénink pro maximální výkon a transformaci tělesného tuku.
+            </p>
+            <div class="program-features">
+              <span class="program-feature">
+                <i class="fas fa-clock"></i>
+                90 min
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-users"></i>
+                Skupina
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-star"></i>
+                Pokročilí 
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/zumba-classes-in-houston-scaled.jpg.webp" alt="Zumba">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+            </div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">Zumba</h3>
+            <p class="program-description">
+              Taneční fitness program kombinující latinsko-americké rytmy s aerobním cvičením pro zábavné spalování kalorií.
+            </p>
+            <div class="program-features">
+              <span class="program-feature">
+                <i class="fas fa-clock"></i>
+                60 min
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-users"></i>
+                Skupina
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-star"></i>
+                Všichni
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/Unknown.jpeg" alt="Body Step">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+            </div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">Body Step</h3>
+            <p class="program-description">
+              Dynamický trénink aerobic stepu kombinující kardio a silový trénink pro efektivní spalování tuků a posílení svalů.
+            </p>
+            <div class="program-features">
+              <span class="program-feature">
+                <i class="fas fa-clock"></i>
+                60 min
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-users"></i>
+                Skupina
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-star"></i>
+                Všichni
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="program-card">
+          <div class="program-image">
+            <img src="../assets/images/man-doing-kettlebell-overhead-squat.jpg" alt="Kettlebell Training">
+            <div class="program-overlay">
+              <i class="fas fa-play fa-2x"></i>
+            </div>
+          </div>
+          <div class="program-content">
+            <h3 class="program-title" style="font-family: 'Bebas Neue', sans-serif;">Kettlebelly s Tondou</h3>
+            <p class="program-description">
+              Funkční trénink s kettlebelly pro každého, kdo kromě hardcore tréninku se chce zasmát s Tondou.
+            </p>
+            <div class="program-features">
+              <span class="program-feature">
+                <i class="fas fa-clock"></i>
+                60 min
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-users"></i>
+                Skupina
+              </span>
+              <span class="program-feature">
+                <i class="fas fa-star"></i>
+                Všichni
+              </span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MMA FOR KIDS SECTION -->
+  <section id="mma-kids" class="section" style="background: var(--color-bg); position: relative; overflow: hidden; padding: 1rem 0;">
+    <!-- Subtle background elements -->
+    <div style="position: absolute; top: 10px; left: 10px; font-size: 1.5rem; color: var(--color-secondary); opacity: 0.3; animation: bounce 2s infinite;">🌟</div>
+    <div style="position: absolute; top: 20px; right: 20px; font-size: 1.3rem; color: var(--color-accent); opacity: 0.3; animation: bounce 2s infinite 0.5s;">🎈</div>
+    <div style="position: absolute; bottom: 15px; left: 20px; font-size: 1.2rem; color: var(--color-primary); opacity: 0.3; animation: bounce 2s infinite 1s;">⭐</div>
+    <div style="position: absolute; bottom: 25px; right: 15px; font-size: 1rem; color: #10b981; opacity: 0.3; animation: bounce 2s infinite 1.5s;">🎪</div>
+    
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 1rem; text-align: center;">
+        <h2 class="section-title" style="color: var(--color-text); font-size: 2rem; margin-bottom: 0.3rem; font-weight: 800; text-align: center; font-family: 'Bebas Neue', sans-serif;">
+          🥋 MMA pro děti 🥋
+        </h2>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: center;">
+        <div class="kids-content">
+          <div style="background: var(--color-bg-light); border-radius: 16px; padding: 1.5rem; border: 2px solid var(--color-primary); box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2); position: relative; overflow: hidden;">
+            <!-- Decorative corner elements -->
+            <div style="position: absolute; top: -10px; right: -10px; width: 40px; height: 40px; background: linear-gradient(45deg, var(--color-primary), var(--color-secondary)); border-radius: 50%; opacity: 0.2;"></div>
+            <div style="position: absolute; bottom: -15px; left: -15px; width: 60px; height: 60px; background: linear-gradient(45deg, var(--color-accent), #10b981); border-radius: 50%; opacity: 0.15;"></div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <h3 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 0.8rem; text-align: center; font-weight: 700; font-family: 'Bebas Neue', sans-serif;">
+                  🎯 Co se děti naučí:
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid var(--color-primary); font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    🥊 Základy úderů a kopů
+                  </li>
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid var(--color-secondary); font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(245, 158, 11, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    🤝 Základy grapplingu
+                  </li>
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid var(--color-accent); font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(239, 68, 68, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    🛡️ Sebeobrana
+                  </li>
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid #10b981; font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    💖 Disciplína a respekt
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 style="color: var(--color-primary); font-size: 1.2rem; margin-bottom: 0.8rem; text-align: center; font-weight: 700; font-family: 'Bebas Neue', sans-serif;">
+                  🎒 Co potřebují:
+                </h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid var(--color-secondary); font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(245, 158, 11, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    👕 Sportovní oblečení
+                  </li>
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid var(--color-accent); font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(239, 68, 68, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    👟 Sportovní boty
+                  </li>
+                  <li style="margin-bottom: 0.5rem; color: var(--color-text); font-size: 0.9rem; padding: 0.6rem; border-radius: 8px; background: var(--color-bg-card); border: 2px solid #10b981; font-weight: 600; transition: all 0.3s ease; cursor: pointer; text-align: center;" onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.3)'" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none'">
+                    💧 Láhev s vodou
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem;">
+            <div style="background: var(--color-bg-card); padding: 1rem; border-radius: 12px; text-align: center; border: 2px solid var(--color-primary); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(37, 99, 235, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.2)'">
+              <div style="color: var(--color-primary); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.3rem; font-family: 'Bebas Neue', sans-serif;">⏰ 60 min</div>
+              <div style="color: var(--color-text-muted); font-size: 0.8rem; font-weight: 600;">Délka lekce</div>
+            </div>
+            <div style="background: var(--color-bg-card); padding: 1rem; border-radius: 12px; text-align: center; border: 2px solid var(--color-secondary); box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(245, 158, 11, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(245, 158, 11, 0.2)'">
+              <div style="color: var(--color-secondary); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.3rem; font-family: 'Bebas Neue', sans-serif;">👶 6-14 let</div>
+              <div style="color: var(--color-text-muted); font-size: 0.8rem; font-weight: 600;">Věková skupina</div>
+            </div>
+            <div style="background: var(--color-bg-card); padding: 1rem; border-radius: 12px; text-align: center; border: 2px solid var(--color-accent); box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 25px rgba(239, 68, 68, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 20px rgba(239, 68, 68, 0.2)'">
+              <div style="color: var(--color-accent); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.3rem; font-family: 'Bebas Neue', sans-serif;">🌟 Začátečníci</div>
+              <div style="color: var(--color-text-muted); font-size: 0.8rem; font-weight: 600;">Úroveň</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="kids-image" style="text-align: center;">
+          <div style="background: var(--color-bg-light); border-radius: 16px; padding: 1.5rem; border: 2px solid var(--color-primary); box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2); position: relative; overflow: hidden;">
+            <!-- Decorative elements -->
+            <div style="position: absolute; top: -15px; right: -15px; width: 60px; height: 60px; background: linear-gradient(45deg, var(--color-primary), var(--color-secondary)); border-radius: 50%; opacity: 0.2;"></div>
+            <div style="position: absolute; bottom: -20px; left: -20px; width: 80px; height: 80px; background: linear-gradient(45deg, var(--color-accent), #10b981); border-radius: 50%; opacity: 0.15;"></div>
+            
+            <img src="../assets/images/0ED17EC8-41A4-4B68-8149-D990B743E9B8.JPG" 
+                 alt="MMA pro děti" 
+                 style="width: 100%; max-width: 250px; border-radius: 12px; border: 2px solid var(--color-primary); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3); transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='scale(1.05) rotate(2deg)'; this.style.boxShadow='0 8px 25px rgba(37, 99, 235, 0.5)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'; this.style.boxShadow='0 6px 20px rgba(37, 99, 235, 0.3)'">
+            
+            <div style="margin-top: 1.5rem; text-align: center;">
+              <div style="font-size: 1.2rem; color: var(--color-primary); font-weight: 700; margin-bottom: 0.5rem; font-family: 'Bebas Neue', sans-serif;">
+                🎯 Připraveni na dobrodružství? 🎯
+              </div>
+              <div style="font-size: 1rem; color: var(--color-secondary); font-weight: 600;">
+                Přidej se k falconíkům i Ty! 🚀
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-8px); }
+        60% { transform: translateY(-4px); }
+      }
+      
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      .kids-image img:hover {
+        transform: scale(1.05) rotate(2deg);
+      }
+      
+      .kids-image a:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(255,107,107,0.5) !important;
+      }
+      
+      .kids-image {
+        animation: float 6s ease-in-out infinite;
+      }
+    </style>
+  </section>
+
+  <!-- TRAINERS SECTION -->
+  <section id="trainers" class="section" style="background: var(--color-bg-light);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif;">Naši Trenéři</h2>
+        <p class="section-subtitle">
+          Neboj se zkontaktovat naše trenéry a domluvit se s nimi na lekci
+        </p>
+      </div>
+
+      <div class="trainers-grid">
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="../assets/images/ksw98_asr07057.JPG" alt="Steven Krt" class="trainer-photo" style="width: 100% !important; height: 100% !important; display: block !important; object-fit: cover !important; object-position: center 30% !important;">
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Steven Krt</h3>
+                <p class="trainer-specialty">Falcons fighters HeadCoach</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">MMA</span>
+                  <span class="class-tag">MMA Striking</span>
+                  <span class="class-tag">Wrestling/Ground</span>
+                </div>
+                <a href="https://instagram.com/stevenkrt" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@stevenkrt</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="../assets/images/image0.jpeg" alt="Ondrej Halaj" class="trainer-photo" style="width: 100% !important; height: 100% !important; display: block !important; object-fit: cover !important;">
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Ondřej Halaj</h3>
+                <p class="trainer-specialty">CrossFit Coach</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">CrossFit</span>
+                  <span class="class-tag">Vzpírání</span>
+                  <span class="class-tag">Silový trénink</span>
+                </div>
+                <a href="https://instagram.com/ondrej.halaj" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@ondrej.halaj</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop" alt="Tonda" class="trainer-photo">
+            <video class="trainer-video" muted loop>
+              <source src="https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4" type="video/mp4">
+            </video>
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Antonín Bábíček</h3>
+                <p class="trainer-specialty">Fitness & Wellbeing Coacg</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">Kettlebells</span>
+                  <span class="class-tag">Kondice</span>
+                  <span class="class-tag">Dynamika</span>
+                </div>
+                <a href="https://instagram.com/anthony_babicek_official" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@anthony_babicek_official</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="../assets/images/cb3cdd4e-e588-4255-91fa-c9ca4698ab8a.JPG" alt="Káťa Behinová" class="trainer-photo" style="width: 100% !important; height: 100% !important; display: block !important; object-fit: cover !important;">
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Káťa Behinová</h3>
+                <p class="trainer-specialty">Trenérka kruháčů</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">Kruháč</span>
+                  <span class="class-tag">Posilování</span>
+                  <span class="class-tag">Formování těla</span>
+                </div>
+                <a href="https://instagram.com/kata_behinova" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@kata_behinova</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="../assets/images/Jiří Dlouhý.jpg" alt="Jiří Dlouhý" class="trainer-photo" style="width: 100% !important; height: 100% !important; display: block !important; object-fit: cover !important;">
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Jiří Dlouhý</h3>
+                <p class="trainer-specialty">S&C Coach</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">Silový trénink</span>
+                  <span class="class-tag">Neurotraining</span>
+                  <span class="class-tag">Rehabilitační trenér</span>
+                </div>
+                <a href="https://instagram.com/athlete.jd" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@athlete.jd</span>
+                </a>
+                <a href="tel:+420604519497" class="phone-link">
+                  <i class="fas fa-phone"></i>
+                  <span>+420 604 519 497</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="../assets/images/IMG_8707.jpeg" alt="Důša" class="trainer-photo" style="width: 100% !important; height: 100% !important; display: block !important; object-fit: cover !important;">
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Důša</h3>
+                <p class="trainer-specialty">Lapař</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">Osobní tréninky</span>
+                  <span class="class-tag">Lapy</span>
+                  <span class="class-tag">Box</span>
+                </div>
+                <a href="https://instagram.com/m._dusa" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@m._dusa</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="trainer-card">
+          <div class="trainer-media">
+            <img src="../assets/images/a9a72b5e-b626-437d-a1b9-e605b5f20b19.jpeg" alt="Karel Valíšek" class="trainer-photo" style="width: 100% !important; height: 100% !important; display: block !important; object-fit: cover !important; object-position: center 30% !important;">
+            <div class="trainer-overlay">
+              <div class="trainer-info">
+                <h3 class="trainer-name" style="font-family: 'Bebas Neue', sans-serif;">Karel Valíšek</h3>
+                <p class="trainer-specialty">Trenér</p>
+                <div class="trainer-classes">
+                  <span class="class-tag">Fitness Racing/Hybrid Coach</span>
+                </div>
+                <a href="https://instagram.com/hybrid_training_kv" target="_blank" class="instagram-link">
+                  <i class="fab fa-instagram"></i>
+                  <span>@hybrid_training_kv</span>
+                </a>
+                <a href="tel:+420607120604" class="phone-link">
+                  <i class="fas fa-phone"></i>
+                  <span>+420 607 120 604</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WELLNESS SECTION -->
+  <section id="wellness" class="section" style="background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="color: white; font-family: 'Bebas Neue', sans-serif;">Wellness & Relaxace</h2>
+        <p class="section-subtitle" style="color: rgba(255, 255, 255, 0.9);">
+          Relaxace a regenerace je klíčová pro zdraví a výkonnost. Proto nabízíme všechny wellness služby, které pomáhají obnovit energii a dodat sílu.
+        </p>
+      </div>
+
+      <div class="wellness-grid">
+        <div class="wellness-card">
+          <div class="wellness-icon">
+            <i class="fas fa-hot-tub"></i>
+          </div>
+                      <h3 class="wellness-title" style="font-family: 'Bebas Neue', sans-serif;">Sauna</h3>
+          <p class="wellness-description">
+            Finská sauna pro detoxikaci a relaxaci svalů. Ideální pro regeneraci po tréninku.
+          </p>
+          <div class="wellness-features">
+            <span class="wellness-feature">
+              <i class="fas fa-thermometer-half"></i>
+              až 120°C
+            </span>
+            <span class="wellness-feature">
+              <i class="fas fa-clock"></i>
+              Neomezeně
+            </span>      
+          </div>
+        </div>
+
+        <div class="wellness-card">
+          <div class="wellness-icon">
+            <i class="fas fa-swimming-pool"></i>
+          </div>
+                      <h3 class="wellness-title" style="font-family: 'Bebas Neue', sans-serif;">Vířivka</h3>
+          <p class="wellness-description">
+            Masážní vířivka pro uvolnění svalů a zlepšení krevního oběhu.
+          </p>
+          <div class="wellness-features">
+            <span class="wellness-feature">
+              <i class="fas fa-thermometer-half"></i>
+              38-40°C
+            </span>
+            <span class="wellness-feature">
+              <i class="fas fa-clock"></i>
+              neomezeně
+            </span>
+          </div>
+        </div>
+
+        <div class="wellness-card">
+          <div class="wellness-icon">
+            <i class="fas fa-spa"></i>
+          </div>
+                      <h3 class="wellness-title" style="font-family: 'Bebas Neue', sans-serif;">Spa Zóna</h3>
+          <p class="wellness-description">
+            Relaxační zóna s pohodlnými lehátky pro kompletní odpočinek a regeneraci.
+          </p>
+          <div class="wellness-features">
+            <span class="wellness-feature">
+              <i class="fas fa-leaf"></i>
+              Relaxace
+            </span>
+            <span class="wellness-feature">
+              <i class="fas fa-clock"></i>
+              Neomezeně
+            </span>
+          </div>
+        </div>
+        
+        <div class="wellness-disclaimer">
+          <div class="disclaimer-content">
+            <i class="fas fa-info-circle"></i>
+            <p><strong>Důležité:</strong> Pro využití wellness služeb je nutné se předem objednat. Kontaktujte nás telefonicky nebo osobně na recepci pro rezervaci termínu.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIP SECTION -->
+  <section id="membership" class="section" style="background: var(--color-bg-light);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif;">Všechna členství zakoupíš u nás v gymu!</h2>
+        
+      </div>
+
+      <div class="membership-grid">
+        <div class="membership-card">
+          <div class="membership-icon">
+            <i class="fas fa-calendar-day"></i>
+          </div>
+                      <h3 class="membership-title" style="font-family: 'Bebas Neue', sans-serif;">Jednorázový vstup na lekce</h3>
+          <div class="membership-price">150 Kč</div>
+          <ul class="membership-features">
+            <li>1 trénink dle výběru</li>
+            <li>Zapůjčení vybavení</li>
+            <li>Skupinové lekce</li>
+          </ul>
+        </div>
+
+        <div class="membership-card">
+          <div class="membership-icon">
+            <i class="fas fa-calendar-week"></i>
+          </div>
+                      <h3 class="membership-title" style="font-family: 'Bebas Neue', sans-serif;">Permanentka</h3>
+          <div class="membership-price">1 500 Kč</div>
+          <ul class="membership-features">
+            <li>10 + 1 tréninků</li>
+            <li>Skupinové lekce</li>
+            <li>Zapůjčení vybavení</li>
+            <li>Neomezená platnost</li>
+          </ul>
+        </div>
+
+        <div class="membership-card">
+          <div class="membership-icon">
+            <i class="fas fa-calendar-alt"></i>
+          </div>
+                      <h3 class="membership-title" style="font-family: 'Bebas Neue', sans-serif;">Open Gym</h3>
+          <div class="membership-price">1 000 Kč</div>
+          <ul class="membership-features">
+            <li>24/7 vstup</li>
+            <li>Nevztahuje se na skupinové lekce</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE SECTION -->
+  <section id="schedule" class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif;">Rozvrh Tréninků</h2>
+        <p class="section-subtitle">
+          Připoj se k našim pravidelným tréninkům a začni svou transformaci ještě dnes
+        </p>
+      </div>
+
+      <div class="schedule-container">
+        <div class="schedule-tabs">
+          <button class="schedule-tab active" data-day="monday">Pondělí</button>
+          <button class="schedule-tab" data-day="tuesday">Úterý</button>
+          <button class="schedule-tab" data-day="wednesday">Středa</button>
+          <button class="schedule-tab" data-day="thursday">Čtvrtek</button>
+          <button class="schedule-tab" data-day="friday">Pátek</button>
+          <button class="schedule-tab" data-day="saturday">Sobota</button>
+          <button class="schedule-tab" data-day="sunday">Neděle</button>
+        </div>
+
+        <div class="schedule-content">
+          <div class="schedule-day active" id="monday">
+            <div class="schedule-item">
+              <div class="schedule-time">06:00 - 07:30</div>
+              <div class="schedule-class">
+                <h4>Strike - Techniky</h4>
+                <p>Techniky úderů a kopů</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">16:30 - 17:30</div>
+              <div class="schedule-class">
+                <h4>MMA Děti</h4>
+                <p>MMA trénink pro děti</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:30</div>
+              <div class="schedule-class">
+                <h4>CrossFit</h4>
+                <p>Intenzivní funkční trénink</p>
+                <span class="trainer">Ondra</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:30</div>
+              <div class="schedule-class">
+                <h4>MMA</h4>
+                <p>MMA trénink pro všechny úrovně</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">19:00 - 20:30</div>
+              <div class="schedule-class">
+                <h4>K1 - Vilda</h4>
+                <p>K1 kickboxing</p>
+                <span class="trainer">Vilda</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-day" id="tuesday">
+            <div class="schedule-item">
+              <div class="schedule-time">06:00 - 07:30</div>
+              <div class="schedule-class">
+                <h4>Silový Trénink</h4>
+                <p>Silový trénink pro všechny úrovně</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">10:00 - 11:30</div>
+              <div class="schedule-class">
+                <h4>MMA Striking</h4>
+                <p>Techniky úderů a kopů v MMA</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:00</div>
+              <div class="schedule-class">
+                <h4>Body Step Aerobic</h4>
+                <p>Dynamický aerobic step trénink</p>
+                <span class="trainer">Lenka</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:00</div>
+              <div class="schedule-class">
+                <h4>Kruháč</h4>
+                <p>Kruhový trénink celého těla</p>
+                <span class="trainer">Žofka</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:00</div>
+              <div class="schedule-class">
+                <h4>Grappling & BJJ</h4>
+                <p>Brazilské jiu-jitsu a grappling</p>
+                <span class="trainer">Albert & Tonda</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:30</div>
+              <div class="schedule-class">
+                <h4>Box & KickBox</h4>
+                <p>Kombinace boxu a kickboxu</p>
+                <span class="trainer">Steven/Kuba</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:30</div>
+              <div class="schedule-class">
+                <h4>Kettlebelly s Tondou</h4>
+                <p>Funkční trénink s kettlebelly</p>
+                <span class="trainer">Tonda</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:00</div>
+              <div class="schedule-class">
+                <h4>B-Cross Runners</h4>
+                <p>Běžecký trénink zaměřený na sílu a vytrvalost</p>
+                <span class="trainer">Kája</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-day" id="wednesday">
+            <div class="schedule-item">
+              <div class="schedule-time">06:00 - 07:30</div>
+              <div class="schedule-class">
+                <h4>Judo/Wrestling</h4>
+                <p>Judo a wrestling techniky</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">16:30 - 17:30</div>
+              <div class="schedule-class">
+                <h4>MMA Děti</h4>
+                <p>MMA trénink pro děti</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:30</div>
+              <div class="schedule-class">
+                <h4>CrossFit</h4>
+                <p>Intenzivní funkční trénink</p>
+                <span class="trainer">Ondra</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:00</div>
+              <div class="schedule-class">
+                <h4>MMA</h4>
+                <p>MMA trénink pro všechny úrovně</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:15 - 19:15</div>
+              <div class="schedule-class">
+                <h4>CrossFit 2</h4>
+                <p>Druhý CrossFit trénink dne</p>
+                <span class="trainer">Ondřej</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-day" id="thursday">
+            <div class="schedule-item">
+              <div class="schedule-time">06:00 - 07:00</div>
+              <div class="schedule-class">
+                <h4>Obratnost a Gymnastika</h4>
+                <p>Gymnastické prvky a obratnostní trénink</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">10:00 - 11:30</div>
+              <div class="schedule-class">
+                <h4>MMA Striking</h4>
+                <p>Techniky úderů a kopů v MMA</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:00</div>
+              <div class="schedule-class">
+                <h4>Body Step Aerobic</h4>
+                <p>Dynamický aerobic step trénink</p>
+                <span class="trainer">Lenka</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:00</div>
+              <div class="schedule-class">
+                <h4>Kruháč s Katkou</h4>
+                <p>Kruhový trénink s Káťou</p>
+                <span class="trainer">Káťa</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:00</div>
+              <div class="schedule-class">
+                <h4>Grappling & BJJ</h4>
+                <p>Brazilské jiu-jitsu a grappling</p>
+                <span class="trainer">Albert & Tonda</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:30</div>
+              <div class="schedule-class">
+                <h4>Box & KickBox</h4>
+                <p>Kombinace boxu a kickboxu</p>
+                <span class="trainer">Steven/Kuba</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:00</div>
+              <div class="schedule-class">
+                <h4>Kettlebelly s Tondou</h4>
+                <p>Funkční trénink s kettlebelly</p>
+                <span class="trainer">Tonda</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:45 - 19:45</div>
+              <div class="schedule-class">
+                <h4>Zumba</h4>
+                <p>Taneční fitness program</p>
+                <span class="trainer">Niky</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">19:00 - 20:30</div>
+              <div class="schedule-class">
+                <h4>K1 - Vilda</h4>
+                <p>K1 kickboxing s Vildou</p>
+                <span class="trainer">Vilda</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-day" id="friday">
+            <div class="schedule-item">
+              <div class="schedule-time">06:00 - 07:00</div>
+              <div class="schedule-class">
+                <h4>Silový Trénink</h4>
+                <p>Silový trénink pro všechny úrovně</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">16:30 - 17:30</div>
+              <div class="schedule-class">
+                <h4>MMA Děti</h4>
+                <p>MMA trénink pro děti</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:00 - 18:30</div>
+              <div class="schedule-class">
+                <h4>CrossFit</h4>
+                <p>Intenzivní funkční trénink</p>
+                <span class="trainer">Ondra</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 19:30</div>
+              <div class="schedule-class">
+                <h4>Wrestling - Zápas</h4>
+                <p>Wrestling zápasové techniky</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">19:00 - 20:30</div>
+              <div class="schedule-class">
+                <h4>K1 - Vilda</h4>
+                <p>K1 kickboxing s Vildou</p>
+                <span class="trainer">Vilda</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-day" id="saturday">
+            <div class="schedule-item">
+              <div class="schedule-time">08:00 - 09:00</div>
+              <div class="schedule-class">
+                <h4>B-Cross Runners</h4>
+                <p>Běžecký trénink pro všechny úrovně</p>
+                <span class="trainer">Kája</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">08:30 - 10:00</div>
+              <div class="schedule-class">
+                <h4>Grappling</h4>
+                <p>Grappling techniky a trénink</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">09:00 - 10:30</div>
+              <div class="schedule-class">
+                <h4>Vzpírání</h4>
+                <p>Techniky vzpírání a silový trénink</p>
+                <span class="trainer">Ondra</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">10:00 - 11:30</div>
+              <div class="schedule-class">
+                <h4>Box & KickBox</h4>
+                <p>Kombinace boxu a kickboxu</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">10:30 - 12:00</div>
+              <div class="schedule-class">
+                <h4>B-Cross Runners 2</h4>
+                <p>Druhý běžecký trénink dne</p>
+                <span class="trainer">Kája</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="schedule-day" id="sunday">
+            <div class="schedule-item">
+              <div class="schedule-time">10:00 - 11:30</div>
+              <div class="schedule-class">
+                <h4>CrossFit - Začátečníci</h4>
+                <p>CrossFit pro začátečníky</p>
+                <span class="trainer">Tom</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">12:00 - 13:30</div>
+              <div class="schedule-class">
+                <h4>Box</h4>
+                <p>Boxerský trénink pro všechny úrovně</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">16:00 - 17:30</div>
+              <div class="schedule-class">
+                <h4>CrossFit - Pokročilý</h4>
+                <p>Pokročilý CrossFit trénink</p>
+                <span class="trainer">Ondra</span>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:00 - 20:30</div>
+              <div class="schedule-class">
+                <h4>Meziklubové Sparringy</h4>
+                <p>MMA/BOX/KICKBOX - každý sudý týden</p>
+                <span class="trainer">Steven</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT US SECTION -->
+  <section class="visit-us-section">
+    <div class="container">
+      <div class="visit-us-content">
+        <div class="visit-us-text">
+          <h2 class="visit-us-title" style="font-family: 'Bebas Neue', sans-serif;">Zaujali jsme Tě?</h2>
+          <p class="visit-us-subtitle">Jsi ready jít do toho? Navštiv nás ještě dnes.</p>
+                      <div class="visit-us-cta">
+              <a href="https://maps.google.com/?q=Slovenská+1917,+356+01+Sokolov+1,+Czech+Republic" target="_blank" class="visit-us-btn primary">
+                <i class="fas fa-map-marker-alt"></i>
+                Najít na mapě
+              </a>
+              <a href="tel:+420123456789" class="visit-us-btn secondary">
+                <i class="fas fa-phone"></i>
+                Zavolej nám
+              </a>
+            </div>
+        </div>
+        <div class="visit-us-visual">
+          <div class="visit-us-card">
+            <div class="card-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <h3 style="font-family: 'Bebas Neue', sans-serif;">Najdeš nás tady</h3>
+            <a href="https://maps.google.com/?q=Slovenská+1917,+356+01+Sokolov+1,+Czech+Republic" target="_blank" class="card-address">
+              <i class="fas fa-map-marker-alt"></i>
+              Slovenská 1917, 356 01 Sokolov 1
+            </a>
+            <div class="card-highlight">
+              <i class="fas fa-clock"></i>
+              <span>Po domluvě</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      </section>
+
+
+
+    <!-- VIRTUAL TOUR SECTION -->
+    <section class="virtual-tour-section" id="virtual-tour">
+      <div class="virtual-tour-container">
+        <div class="virtual-tour-header">
+          <h2 class="section-title" style="font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: white; margin-bottom: 1rem;">
+            VIRTUÁLNÍ PROHLÍDKA
+          </h2>
+          <p style="color: rgba(255, 255, 255, 0.8); font-size: 1.2rem; max-width: 600px; margin: 0 auto;">
+            Prozkoumejte náš gym z pohodlí domova
+          </p>
+        </div>
+
+        <div class="virtual-tour-embed">
+          <div id="_TLhUMt3H"><script type="text/javascript" async data-short="_TLhUMt3H" data-path="tours" data-is-self-hosted="undefined" width="100%" height="500px" src="https://app.cloudpano.com/public/shareScript.js"></script></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+                      <h3 style="font-family: 'Bebas Neue', sans-serif;">Ultimate CrossGym</h3>
+          <p>Ukaž, co je v Tobě.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h3>Kontakt</h3>
+          <p><i class="fas fa-map-marker-alt"></i> Sokolov, Slovenská 1917</p>
+          <p><i class="fas fa-phone"></i> +420 702 058 141</p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Otevírací doba</h3>
+          <p>Pondělí - Pátek: 6:00 - 21:00</p>
+          <p>Sobota: 8:00 - 18:00</p>
+          <p>Neděle: 9:00 - 20:00</p>
+        </div>
+
+        <div class="footer-section">
+          <h3>Rychlé odkazy</h3>
+          <a href="#programs">Programy</a>
+          <a href="#membership">Členství</a>
+          <a href="#schedule">Rozvrh</a>
+          <a href="#contact">Kontakt</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Ultimate CrossGym. Všechna práva vyhrazena. OSS!!!</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Header background change on scroll
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.background = 'rgba(15, 23, 42, 0.98)';
+      } else {
+        header.style.background = 'rgba(15, 23, 42, 0.95)';
+      }
+    });
+
+
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navMenu = document.querySelector('.nav-menu');
+
+    console.log('Mobile menu elements:', { mobileMenuBtn, navMenu });
+
+    if (mobileMenuBtn && navMenu) {
+      mobileMenuBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Button clicked!');
+        this.classList.toggle('active');
+        navMenu.classList.toggle('active');
+        console.log('Mobile menu toggled!', {
+          buttonActive: this.classList.contains('active'),
+          menuActive: navMenu.classList.contains('active')
+        });
+      });
+
+      // Close menu when clicking on nav links
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenuBtn.classList.remove('active');
+          navMenu.classList.remove('active');
+        });
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!mobileMenuBtn.contains(e.target) && !navMenu.contains(e.target)) {
+          mobileMenuBtn.classList.remove('active');
+          navMenu.classList.remove('active');
+        }
+      });
+    } else {
+      console.log('Mobile menu elements not found:', { mobileMenuBtn, navMenu });
+    }
+
+    // Add loading animation
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+
+    // Program card hover effects
+    document.querySelectorAll('.program-card').forEach(card => {
+      card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-8px) scale(1.02)';
+      });
+      
+      card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+    });
+
+    // Membership card interactions
+    document.querySelectorAll('.membership-card').forEach(card => {
+      card.addEventListener('click', function() {
+        // Add click animation
+        this.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          this.style.transform = 'scale(1)';
+        }, 150);
+      });
+    });
+
+
+
+    // Schedule tab functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const scheduleTabs = document.querySelectorAll('.schedule-tab');
+      const scheduleDays = document.querySelectorAll('.schedule-day');
+
+      scheduleTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const targetDay = this.getAttribute('data-day');
+          
+          // Remove active class from all tabs and days
+          scheduleTabs.forEach(t => t.classList.remove('active'));
+          scheduleDays.forEach(day => day.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          this.classList.add('active');
+          
+          // Show the corresponding day
+          const targetDayElement = document.getElementById(targetDay);
+          if (targetDayElement) {
+            targetDayElement.classList.add('active');
+          }
+        });
+      });
+
+      // Auto-select current day of the week
+      const today = new Date().getDay();
+      const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+      const currentDay = dayNames[today];
+      
+      // Find and activate the current day tab
+      const currentDayTab = document.querySelector(`[data-day="${currentDay}"]`);
+      if (currentDayTab) {
+        // Remove active from monday (default)
+        document.querySelector('[data-day="monday"]').classList.remove('active');
+        document.getElementById('monday').classList.remove('active');
+        
+        // Activate current day
+        currentDayTab.classList.add('active');
+        const currentDayElement = document.getElementById(currentDay);
+        if (currentDayElement) {
+          currentDayElement.classList.add('active');
+        }
+      }
+    });
+
+    // Trainer video hover functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const trainerCards = document.querySelectorAll('.trainer-card');
+      
+      trainerCards.forEach(card => {
+        const video = card.querySelector('.trainer-video');
+        
+        if (video) {
+          card.addEventListener('mouseenter', function() {
+            video.play().catch(e => console.log('Video autoplay prevented:', e));
+          });
+          
+          card.addEventListener('mouseleave', function() {
+            video.pause();
+            video.currentTime = 0;
+          });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
